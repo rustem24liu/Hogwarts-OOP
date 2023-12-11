@@ -1,26 +1,32 @@
 package codes;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         User first = new User("rustem", "temirgali", 18, "22030451", "Uki");
         User second = new User("azamat", "Tiletay", 18, "22030595", "Owl");
         Admin admin = new Admin();
-        admin.addUsers(first);
-        admin.addUsers(second);
+
         Scanner s = new Scanner(System.in);
+        first.LogIn();
 
-        String firstnick = s.next();
-        String firstpass = s.next();
+//        first.Register();
+        admin.addUsers(first);
 
-//        String secondnick = s.next();
-//        String secondpass = s.next();
+//        admin.addUsers(second);
 
-        first.LogIn(firstnick, firstpass);
-        for(User u : Database.users){
-            System.out.println(u);
+        first.LogIn();
+//        second.LogIn();
+
+        for(User user : Database.users){
+            System.out.println(user);
         }
+
+
+        first.GreatHall();
+//        Database.saveData();
 
 
     }

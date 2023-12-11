@@ -7,16 +7,21 @@ import java.util.Vector;
 public class Admin extends Employee{
 
     public void addUsers(User user) {
-        try {
-            for (User u : Database.users) {
-                if (user.getNickName().equals(u.getNickName())) {
-                    System.out.println("You are in the DataBase");
-                }
+        boolean userExists = false;
+        for (User u : Database.users) {
+            if (user.getNickName().equals(u.getNickName())) {
+                System.out.println("User already exists in the Database");
+                userExists = true;
+                break;
             }
-        } catch (NullPointerException n) {
+        }
+
+        if (!userExists) {
             Database.users.add(user);
+            System.out.println("User added to the Database");
         }
     }
+
 
 
 
