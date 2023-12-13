@@ -7,6 +7,9 @@ import java.util.Vector;
 public class Admin extends Employee{
 
     public void addUsers(User user) {
+        if(Database.users == null){
+            Database.users = new Vector<>();
+        }
         boolean userExists = false;
         for (User u : Database.users) {
             if (user.getNickName().equals(u.getNickName())) {

@@ -2,27 +2,42 @@ package codes;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class Database implements Serializable {
-    protected static ArrayList<User> users = new ArrayList<>();
+//    private static final String FILE_PATH = "users.txt";
+//    private static final long serialVersionUID = 1L;
 
-//    public void saveData() {
-//        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
-//            outputStream.writeObject(users);
-//            System.out.println("User data saved successfully.");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public void loadData() {
-//        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(FILE_PATH))) {
-//            Object object = inputStream.readObject();
-//            if (object instanceof ArrayList) {
-//                users = (ArrayList<User>) object;
-//                System.out.println("User data loaded successfully.");
-//            }
-//        } catch (IOException | ClassNotFoundException e) {
-//            e.printStackTrace();
-//        }
+    static Vector<User> users = new Vector<>();
+    static {
+        if (new File("users.ser").exists()) {
+            try {
+                users = readUsers();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    static Vector<User> readUsers() throws IOException, ClassNotFoundException {
+        FileInputStream fis = new FileInputStream("users.ser");
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        Vector<User> users = (Vector<User>) ois.readObject();
+        fis.close();
+        ois.close();
+        return users;
+    }
+
+    static void saveUsers() {
+        try {
+            FileOutputStream fos = new FileOutputStream("users.ser");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(users);
+            fos.close();
+            oos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
