@@ -1,14 +1,15 @@
 package codes;
 
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
 
 public class Admin extends Employee{
 
-    public void addUsers(User user) {
+    public static void addUsers(User user) {
         if(Database.users == null){
-            Database.users = new Vector<>();
+            Database.users = new ArrayList<>();
         }
         boolean userExists = false;
         for (User u : Database.users) {
