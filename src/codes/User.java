@@ -1,5 +1,6 @@
 package codes;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,12 +14,13 @@ public class User implements Serializable {
     public int age;
 
     public String ID;
-    private String nickName;
+    private static String nickName;
     private String password;
     private boolean status;
     private String owlName;
     boolean loggedin = false;
-    private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    public static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private boolean islogged;
 
     public User(){}
 
@@ -28,6 +30,7 @@ public class User implements Serializable {
         this.age = age;
         this.ID = ID;
         this.owlName = owlName;
+        this.status = true;
         this.nickName = "";
         this.password = "";
     }
@@ -37,8 +40,12 @@ public class User implements Serializable {
         this.age = age;
         this.ID = ID;
         this.owlName = owlName;
+        this.status = true;
         this.nickName = nickName;
         this.password = password;
+    }
+    public boolean getStatus(){
+        return status;
     }
 
     public String getNickName() {
@@ -47,7 +54,39 @@ public class User implements Serializable {
     public String getPassword() {
         return password!=null ? password : "";
     }
+    public String getFirstName(){
+        return firstName;
+    }
+    public String getSecondName(){
+        return secondName;
+    }
+    public int getAge(){
+        return age;
+    }
 
+    public String getID() {
+        return ID;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public String getOwlName() {
+        return owlName;
+    }
+
+    public boolean isLoggedin() {
+        return loggedin;
+    }
+
+    public static BufferedReader getReader() {
+        return reader;
+    }
+
+    public boolean isIslogged() {
+        return islogged;
+    }
 
     public void setPassword(String password){
         this.password = password;
@@ -104,57 +143,40 @@ public class User implements Serializable {
 
     public void GreatHall() throws Exception {
             while (true) {
-                System.out.println("\n\n$$===== Great Hall Menu =====$$");
-                System.out.println("1) View Info");
-                System.out.println("2) News");
-                System.out.println("3) Make Request");
-                System.out.println("4) Personal Data");
-                System.out.println("5) Parcels");
-                System.out.println("6) Change Password");
+                System.out.println("\n$$===== Great Hall Menu =====$$");
+                System.out.println("1) News");
+                System.out.println("2) Make Request");
+                System.out.println("3) Personal Data");
+                System.out.println("4) Change Password");
+                System.out.println("5) Send Parcel");
+                System.out.println("6) View Parcel");
                 System.out.println("7) Logout");
-                System.out.println("8) Send Parcel");
-                System.out.println("9) View Parcel");
-                System.out.println("10) Change Language (enum: kz, ru, eg)");
-                System.out.println("0) Exit Great Hall");
 
                 System.out.print("Enter your choice: ");
                 int choice = Integer.parseInt(reader.readLine());
 
                 switch (choice) {
                     case 1:
-                        viewInfo();
-                        break;
-                    case 2:
                         news();
                         break;
-                    case 3:
+                    case 2:
                         makeRequest();
                         break;
-                    case 4:
+                    case 3:
                         personalData();
                         break;
+                    case 4:
+                        changePassword();
+                        break;
                     case 5:
-                        parcels();
+                        sendParcel();
                         break;
                     case 6:
-                        changePassword();
+                        viewParcel();
                         break;
                     case 7:
                         LogOut();
                         System.out.println("Logged out. Returning to the main menu.");
-                        return;
-                    case 8:
-                        sendParcel();
-                        break;
-                    case 9:
-                        viewParcel();
-                        break;
-                    case 10:
-                        changeLanguage();
-                        break;
-                    case 0:
-//                        Database.saveUsers();
-                        System.out.println("Exiting Great Hall. Returning to the main menu.");
                         return;
                     default:
                         System.out.println("Invalid choice. Please enter a valid option.");
@@ -162,15 +184,11 @@ public class User implements Serializable {
             }
     }
 
-    void viewInfo() {
-        System.out.println("====================================");
-        System.out.println(this.toString());
-        System.out.println("====================================");
-
-    }
 
     void news() {
-        System.out.println("News logic placeholder.");
+        System.out.println("=====News=====");
+//        Database.getNews();
+        System.out.println("==============");
     }
 
     void makeRequest() {
@@ -190,9 +208,7 @@ public class User implements Serializable {
         );
         }
 
-    void parcels() {
-        System.out.println("Parcels logic placeholder.");
-    }
+
 
     void changePassword() throws IOException {
         try {
@@ -246,18 +262,9 @@ public class User implements Serializable {
     void viewParcel() {
         System.out.println("View Parcel logic placeholder.");
     }
-
-    void changeLanguage() {
-        System.out.println("Change Language logic placeholder.");
+    void LogOut() throws Exception {
+//        Main.Menu();
     }
-    void LogOut(){
-        System.out.println("something");
-    }
-
-
-
-
-
 
 
     @Override
@@ -266,10 +273,19 @@ public class User implements Serializable {
                 "Name: " + firstName + '\n' +
                 "Last Name: " + secondName + '\n' +
                 "Age: " + age + '\n' +
-                "ID: '" + ID + '\n' +
+                "ID: " + ID + '\n' +
                 "Nick Name: " + nickName + '\n' +
                 "Password: " + password + '\n' +
                 "Status: " + status + '\n' +
                 "Owl Name: " + owlName + '\n';
+    }
+
+    public boolean login(String password) {
+        this.islogged = this.password.equals(password);
+        return this.islogged;
+    }
+
+    public boolean getIsLogged() {
+        return islogged;
     }
 }

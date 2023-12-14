@@ -5,7 +5,9 @@ import java.util.ArrayList;
 
 public class Database implements Serializable {
     protected static ArrayList<User> users = new ArrayList<>();
+    protected static ArrayList<TheDailyProphet> news = new ArrayList<>();
     protected static ArrayList<Student> students = new ArrayList<>();
+    protected static ArrayList<Student> managers = new ArrayList<>();
     protected static ArrayList<User> subjects = new ArrayList<>();
 
     public static User getUser(String username) {
@@ -19,16 +21,23 @@ public class Database implements Serializable {
     public static void addAllUsers(ArrayList<User> newUsers) {
         users.addAll(newUsers);
     }
-    public static void addAllStudents(ArrayList<Student> newStudents) {
-        users.addAll(newStudents);
+
+    public static void addNews(int number,  String title , String description){
+        TheDailyProphet n = new TheDailyProphet(title, description);
+        news.add(n);
+    }
+    public static void addNews(TheDailyProphet n1) {
+        news.add(n1);
     }
 
-    public static User getUserByNickname(String nickname) {
-        for (User user : users) {
-            if (user.getNickName().equals(nickname)) {
-                return user;
-            }
+
+    public static void getNews(){
+        for(TheDailyProphet news : news){
+            System.out.println(news);
         }
-        return null;
+    }
+
+
+    public static void saveNews() {
     }
 }
