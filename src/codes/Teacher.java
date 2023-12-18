@@ -15,6 +15,7 @@ public class Teacher extends User {
 
     private Subjects LessonType;
 
+
     public TeacherDegree getTeacherDegree() {
         return teacherDegree;
     }

@@ -5,7 +5,9 @@ public class Student extends User {
     private Integer yearOfStudy;
     private String property;
     private String organization;
-
+    private Integer totalCredits;
+    private HashMap<Subject, Mark> marks = new HashMap<>();
+    private ArrayList<Subject> subjects = new ArrayList<>();
     public Student(){};
     public Student(String firstName, String secondName, int age, String ID, String owlName, Integer yearOfStudy, String property, String organization /*Faculties faculty*/) {
         super(firstName, secondName, age, ID, owlName);
@@ -42,6 +44,7 @@ public class Student extends User {
         this.organization = organization;
     }
 
+
     public void viewinfiAboutTeacher(HashMap<String, Teacher> teachers) {
         System.out.println("List of Teachers:");
 
@@ -54,17 +57,4 @@ public class Student extends User {
             System.out.println("------------------------");
         }
     }
-
-
 }
-//    public void getTranscript(){}
-//
-//    public void viewShedule(){}
-//
-//    public void rateTeachers(){}
-//
-//    public void viewinfiAboutTeacher(){}
-//
-//    public void viewSubject(){}
-//
-//    public void studentOrganizations(){}

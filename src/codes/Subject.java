@@ -4,41 +4,32 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-//
-///**
-// * @generated
-// */
-public class Course implements Serializable {
 
-    /**
-     * @generated
-     */
-    public Course() {}
-
-    public Course(String code, String title, int credits, Faculty faculty, Teacher teacher) {
-        this.code = code;
-        this.title = title;
-        this.credits = credits;
-        this.faculty = faculty;
-        this.teacher = teacher;
-    }
-
+public class Subject implements Serializable {
     private String code;
     private String title;
     private int credits;
     private int limitOfStudents;
     private Teacher teacher;
-    /**
-     * @generated
-     */
-//    private HashSet<CourseFiles> courseFiles = new HashSet<>();
     private Faculty faculty;
-    private HashSet<Course> prerequisites = new HashSet<>();
+
+    public Subject(){
+
+    }
+
+    public Subject(String code, String title, int credits, Teacher teacher){
+        this.code = code;
+        this.title = title;
+        this.credits = credits;
+        this.teacher = teacher;
+    }
+
+//    private HashSet<CourseFiles> courseFiles = new HashSet<>();
+    private HashSet<Subject> prerequisites = new HashSet<>();
     private ArrayList<Student> students = new ArrayList<>();
     private ArrayList<Teacher> teachers = new ArrayList<>();
     private HashMap<Student, Mark> marks = new HashMap<>();
 //    private ArrayList<Lesson> lessons = new ArrayList<>();
-
     /**
      * @generated
      */
@@ -82,23 +73,11 @@ public class Course implements Serializable {
         this.limitOfStudents = limitOfStudents;
     }
 
-//    public void setCourseFiles(CourseFiles courseF) {
-//        courseFiles.add(courseF);
-//    }
-//
-//    public boolean deleteCourseFiles(CourseFiles courseF) {
-//        return courseFiles.remove(courseF);
-//    }
-//
-//    public HashSet<CourseFiles> getCourseFiles(){
-//        return courseFiles;
-//    }
-
-    public void setPrerequisites(Course c) {
-        prerequisites.add(c);
+    public void setPrerequisites(Subject s) {
+        prerequisites.add(s);
     }
 
-    public HashSet<Course> getPrerequisites() {
+    public HashSet<Subject> getPrerequisites() {
         return prerequisites;
     }
 
@@ -120,11 +99,11 @@ public class Course implements Serializable {
 //    public ArrayList<Lesson> getLessons(){
 //        return lessons;
 //    }
-
-//    public void putMark(Student student, double points, TypeOfMark typeOfMark) {
+//
+//    public void putMark(Student student, double points, Grade grade) {
 //        try {
 //            Mark mark = marks.get(student);
-//            mark.putMark(typeOfMark, points);
+//            mark.putMark(grade, points);
 //            System.out.println("Successful operation");
 //        } catch(Exception e) {
 //            System.out.println("Unsuccessful operation: This student is not " +
@@ -161,15 +140,6 @@ public class Course implements Serializable {
         this.marks = marks;
     }
 
-//    public CourseFiles getFile(String name) {
-//        for (CourseFiles c: courseFiles) {
-//            if (c.getName().equals(name)) {
-//                return c;
-//            }
-//        }
-//        return null;
-//    }
-
     @Override
     public String toString() {
         return "Course: " + "code = '" + code + '\'' +
@@ -177,4 +147,7 @@ public class Course implements Serializable {
                 ", credits = " + credits +
                 ", teacher = " + teacher;
     }
+
+
+
 }

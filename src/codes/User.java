@@ -1,26 +1,25 @@
 package codes;
 
-import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.sql.SQLOutput;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class User implements Serializable {
-    private static final long serialVersionUID = 1L;
+//    private static final long serialVersionUID = 1L;
     public String firstName;
     public String secondName;
     public int age;
-
     public String ID;
-    private static String nickName;
+    private String nickName;
     private String password;
     private boolean status;
     private String owlName;
     boolean loggedin = false;
     public static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    private boolean islogged;
+    private final ArrayList<Message> Parcel = new ArrayList<>();
 
     public User(){}
 
@@ -85,7 +84,7 @@ public class User implements Serializable {
     }
 
     public boolean isIslogged() {
-        return islogged;
+        return loggedin;
     }
 
     public void setPassword(String password){
@@ -95,52 +94,6 @@ public class User implements Serializable {
         this.nickName = nickName;
     }
 
-
-
-    public void LogIn(BufferedReader reader) {
-        if (this.getNickName().isEmpty() || this.getPassword().isEmpty()) {
-            System.out.println(this.firstName + " you need to register!");
-            Register(reader);
-        } else {
-            for (User u : Database.users) {
-                if (u.getNickName().equals(this.getNickName()) && u.getPassword().equals(this.getPassword())) {
-                    System.out.println("Success!");
-                    loggedin = true;
-                    return;  // Add return statement to exit the method upon successful login
-                }
-            }
-            if(!loggedin){
-                System.out.println("Incorrect!");
-            }
-
-        }
-    }
-
-    public void Register(BufferedReader reader) {
-//        while(loggedin) {
-            try {
-                System.out.println("Enter your nickname: ");
-                this.nickName = this.reader.readLine();
-
-                System.out.println("Enter your password: ");
-                this.password = this.reader.readLine();
-
-                System.out.println("User registered successfully!");
-            } catch (IOException e) {
-                e.printStackTrace();  // Handle the exception based on your requirements
-            }
-//        }
-    }
-
-    private boolean checkLogin() {
-        for (User u : Database.users) {
-            if (u.getNickName().equals(this.getNickName()) && u.getPassword().equals(this.getPassword())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public void GreatHall() throws Exception {
             while (true) {
                 System.out.println("\n$$===== Great Hall Menu =====$$");
@@ -148,34 +101,36 @@ public class User implements Serializable {
                 System.out.println("2) Make Request");
                 System.out.println("3) Personal Data");
                 System.out.println("4) Change Password");
-                System.out.println("5) Send Parcel");
-                System.out.println("6) View Parcel");
-                System.out.println("7) Logout");
-
+                System.out.println("5) Parcels(Messages)");
+                System.out.println("0) Logout");
                 System.out.print("Enter your choice: ");
                 int choice = Integer.parseInt(reader.readLine());
 
                 switch (choice) {
                     case 1:
                         news();
+                        Database.logUserAction(this, "View news");
                         break;
                     case 2:
                         makeRequest();
+                        Database.logUserAction(this, "Made Request");
                         break;
                     case 3:
                         personalData();
+                        Database.logUserAction(this, "Saw personal data");
                         break;
                     case 4:
                         changePassword();
+                        Database.logUserAction(this, "Changed password");
                         break;
                     case 5:
-                        sendParcel();
+                        Database.logUserAction(this, "Messages");
+                        Messages();
+                        // I will write method for message
                         break;
-                    case 6:
-                        viewParcel();
-                        break;
-                    case 7:
+                    case 0:
                         LogOut();
+                        Database.logUserAction(this, "Logged out");
                         System.out.println("Logged out. Returning to the main menu.");
                         return;
                     default:
@@ -185,14 +140,24 @@ public class User implements Serializable {
     }
 
 
+
+
     void news() {
-        System.out.println("=====News=====");
-//        Database.getNews();
-        System.out.println("==============");
+        System.out.println("$            =====News=====         $");
+        Database.getNews();
+        System.out.println("$            ==============         $");
     }
 
-    void makeRequest() {
-        System.out.println("Make Request logic placeholder.");
+    void makeRequest() throws IOException {
+        System.out.print("Title of your request: ");
+        String request = reader.readLine();
+        System.out.print("Description: ");
+        String desc = reader.readLine();
+
+        String logEntry = new Date() + " - User: " + this.getNickName() + " - Title: " + request + " - Description: " + desc;
+        Database.requests.add(logEntry);
+        System.out.println("Request Made: " + logEntry);
+
     }
 
     void personalData() {
@@ -202,7 +167,6 @@ public class User implements Serializable {
                     "Last Name: '" + secondName + '\n' +
                     "Age:  " + age + '\n' +
                     "ID: '" + ID + '\n' +
-//                    "Status'" + status + '\n' +
                     "Owl Name='" + owlName + '\n' + "\n" +
                 password
         );
@@ -212,8 +176,6 @@ public class User implements Serializable {
 
     void changePassword() throws IOException {
         try {
-
-
             System.out.println("Enter your current password: ");
             String currentPassword = reader.readLine();
             if (currentPassword.equals(this.getPassword())) {
@@ -225,9 +187,6 @@ public class User implements Serializable {
 
                 if(conPassword.equals(newPassword)) {
                     System.out.print("Changing password %-%-%-%-%-%-%-%-%-%-%-%-%");
-//                for(int i = 0; i < 10; ++i){
-//                    System.out.print("%");
-//                }
                     this.setPassword(newPassword);
 
                     updatePasswordInDatabase(newPassword);
@@ -255,15 +214,69 @@ public class User implements Serializable {
         }
     }
 
-    void sendParcel() {
-        System.out.println("Send Parcel logic placeholder.");
+    void Messages() throws Exception{
+        while(true){
+            System.out.println("----------Messages----------");
+            System.out.println("-You have " + Parcel.size() + " messages");
+            System.out.println("1) View messages");
+            System.out.println("2) Send messages");
+            System.out.println("0) Go back to Menu");
+            System.out.print("Your choice: ");
+            try {
+                int answer = Integer.parseInt(reader.readLine());
+                switch (answer){
+                    case 1:
+                        viewMessage();
+                        Database.logUserAction(this, "Viewed Message");
+                        break;
+                    case 2:
+                        Database.logUserAction(this, "Sent Message to" );
+                        sendMessage();
+                        break;
+                    case 0:
+                        this.GreatHall();
+                        break;
+
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+
+        }
+    }
+    void viewMessage() throws IOException{
+        for(Message m : Parcel){
+            System.out.println(m);
+        }
+    }
+    void sendMessage() throws IOException {
+        System.out.print("Enter the recipient's nickname: ");
+        String nickname = reader.readLine();
+
+        User recipient = Database.getUser(nickname);
+
+        if(recipient != null){
+            System.out.println("Enter the message: ");
+            String message = reader.readLine();
+
+            Message message1 = new Message(this, recipient, message);
+
+            recipient.receiveMessage(message1);
+
+            System.out.println("Message sent!");
+        }
+        else {
+            System.out.println("User not found!");
+        }
+
+    }
+    void receiveMessage(Message message){
+        Parcel.add(message);
     }
 
-    void viewParcel() {
-        System.out.println("View Parcel logic placeholder.");
-    }
     void LogOut() throws Exception {
-//        Main.Menu();
+        Main.Menu();
     }
 
 
@@ -274,18 +287,10 @@ public class User implements Serializable {
                 "Last Name: " + secondName + '\n' +
                 "Age: " + age + '\n' +
                 "ID: " + ID + '\n' +
-                "Nick Name: " + nickName + '\n' +
-                "Password: " + password + '\n' +
+                "Nick Name: " + this.nickName + '\n' +
+                "Password: " + this.password + '\n' +
                 "Status: " + status + '\n' +
                 "Owl Name: " + owlName + '\n';
     }
 
-    public boolean login(String password) {
-        this.islogged = this.password.equals(password);
-        return this.islogged;
-    }
-
-    public boolean getIsLogged() {
-        return islogged;
-    }
 }
