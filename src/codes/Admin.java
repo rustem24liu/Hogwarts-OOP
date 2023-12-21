@@ -201,7 +201,7 @@ public class Admin extends Employee{
                     }
                     break;
                 case 0:
-                    Main.Menu();
+                    this.GreatHall();
                     break;
             }
         }
@@ -290,9 +290,9 @@ public class Admin extends Employee{
     }
 
 
-   public String toString(){
+    public String toString(){
         return "Admin: "+ super.toString();
-   }
+    }
 
 
 

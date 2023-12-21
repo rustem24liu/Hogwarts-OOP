@@ -1,6 +1,5 @@
 package codes;
 
-import javax.security.auth.Subject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -56,7 +55,7 @@ public class Teacher extends User {
 
     }
 
-    private HashMap<Student, HashMap<Course, Grade>> studentGrades = new HashMap<>();
+    private HashMap<Student, HashMap<Subject, Grade>> studentGrades = new HashMap<>();
 
     public void viewInfo() {
         System.out.println("Teacher Information:");
@@ -74,14 +73,14 @@ public class Teacher extends User {
 
 
 
-    public void PutMarks(Student student, Course course, Grade grade) {
+    public void PutMarks(Student student, Subject course, Grade grade) {
         System.out.println("Evaluating " + student.getFirstName() + " " + student.getSecondName() +
                 " for the course " + Subjects.ASTRONOMY + ": " + grade);
 
         studentGrades.computeIfAbsent(student, k -> new HashMap<>()).put(course, grade);
     }
 
-    public HashMap<Student, HashMap<Course, Grade>> getStudentGrades() {
+    public HashMap<Student, HashMap<Subject, Grade>> getStudentGrades() {
         return studentGrades;
     }
 

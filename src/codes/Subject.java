@@ -13,26 +13,18 @@ public class Subject implements Serializable {
     private Teacher teacher;
     private Faculty faculty;
 
-    public Subject(){
+    private HashSet<Subject> prerequisites = new HashSet<>();
+    private ArrayList<Student> students = new ArrayList<>();
+    private ArrayList<Teacher> teachers = new ArrayList<>();
+    private HashMap<Student, Mark> marks = new HashMap<>();
 
-    }
-
-    public Subject(String code, String title, int credits, Teacher teacher){
+    public Subject(String code, String title, int credits, Teacher teacher) {
         this.code = code;
         this.title = title;
         this.credits = credits;
         this.teacher = teacher;
     }
 
-//    private HashSet<CourseFiles> courseFiles = new HashSet<>();
-    private HashSet<Subject> prerequisites = new HashSet<>();
-    private ArrayList<Student> students = new ArrayList<>();
-    private ArrayList<Teacher> teachers = new ArrayList<>();
-    private HashMap<Student, Mark> marks = new HashMap<>();
-//    private ArrayList<Lesson> lessons = new ArrayList<>();
-    /**
-     * @generated
-     */
     public String getCode() {
         return code;
     }
@@ -81,43 +73,27 @@ public class Subject implements Serializable {
         return prerequisites;
     }
 
-//    public void setStudents(Student s) {
-//        students.add(s);
-//        Mark m = new Mark();
-//        m.setStudent(s);
-//        marks.put(s, m);
-//    }
-
     public ArrayList<Student> getStudents() {
         return students;
     }
 
-//    public void setLessons(Lesson l) {
-//        lessons.add(l);
-//    }
-//
-//    public ArrayList<Lesson> getLessons(){
-//        return lessons;
-//    }
-//
-//    public void putMark(Student student, double points, Grade grade) {
-//        try {
-//            Mark mark = marks.get(student);
-//            mark.putMark(grade, points);
-//            System.out.println("Successful operation");
-//        } catch(Exception e) {
-//            System.out.println("Unsuccessful operation: This student is not " +
-//                    "registered in this course.");
-//        }
-//
-//    }
-
-    public void setTeachers(ArrayList<Teacher> teachers) {
-        this.teachers = teachers;
+    public void addStudent(Student student) {
+        if (students.size() < limitOfStudents) {
+            students.add(student);
+            Mark m = new Mark();
+            m.setStudent(student);
+            marks.put(student, m);
+        } else {
+            System.out.println("Course is full. Cannot add more students.");
+        }
     }
 
     public ArrayList<Teacher> getTeachers() {
         return teachers;
+    }
+
+    public void addTeacher(Teacher teacher) {
+        teachers.add(teacher);
     }
 
     public Faculty getFaculty() {
@@ -128,16 +104,12 @@ public class Subject implements Serializable {
         this.faculty = faculty;
     }
 
-    public Mark getMarkOfStudent(Student student){
+    public Mark getMarkOfStudent(Student student) {
         return marks.get(student);
     }
 
     public HashMap<Student, Mark> getMarks() {
         return marks;
-    }
-
-    public void setMarks(HashMap<Student, Mark> marks) {
-        this.marks = marks;
     }
 
     @Override
@@ -147,7 +119,4 @@ public class Subject implements Serializable {
                 ", credits = " + credits +
                 ", teacher = " + teacher;
     }
-
-
-
 }

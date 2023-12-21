@@ -12,12 +12,12 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        Student harry = new Student("Harry", "Potter", 11, "0", "Hedwig", "harry", "hogwartsbest");
-        Student hermione = new Student("Hermione", "Granger", 11, "1", "Crookshanks", "hermi", "hermi");
-        Student ron = new Student("Ron", "Weasley", 12, "2", "Scabbers", "ronny", "ronnyrocks");
-        Student ginny = new Student("Ginny", "Weasley", 15, "3", "Arnold", "ginny", "ginny123");
-        Student draco = new Student("Draco", "Malfoy", 14, "4", "Lucius", "draco", "malfoy");
-        Student luna = new Student("Luna", "Lovegood", 13, "5", "Thestral", "luna", "radishlove");
+        Student harry = new Student("Harry", "Potter", 11, "0", "Hedwig", Faculty.GRYFFNDOR, "harry", "hogwartsbest");
+        Student hermione = new Student("Hermione", "Granger", 11, "1", "Crookshanks", Faculty.GRYFFNDOR,  "hermi", "hermi");
+        Student ron = new Student("Ron", "Weasley", 12, "2", "Scabbers",Faculty.GRYFFNDOR,  "ronny", "ronnyrocks");
+        Student ginny = new Student("Ginny", "Weasley", 15, "3", "Arnold", Faculty.GRYFFNDOR, "ginny", "ginny123");
+        Student draco = new Student("Draco", "Malfoy", 14, "4", "Lucius", Faculty.SLYTHERN ,"draco", "malfoy");
+        Student luna = new Student("Luna", "Lovegood", 13, "5", "Thestral", Faculty.RAVANCLAW, "luna", "radishlove");
 
 
         TheDailyProphet news1 = new TheDailyProphet("Bank", "Someone had stolen the money from the national bank!");
@@ -149,11 +149,11 @@ public class Main {
                                 loggedin = true;
                             }
                             else if(ans == 5){
-                                    Admin newAdmin = new Admin(name, lastName, age, ID, owl, nickname, regPassword);
-                                    Database.users.add(newAdmin);
-                                    newAdmin.GreatHall();
-                                    loggedin = true;
-                                }
+                                Admin newAdmin = new Admin(name, lastName, age, ID, owl, nickname, regPassword);
+                                Database.users.add(newAdmin);
+                                newAdmin.GreatHall();
+                                loggedin = true;
+                            }
                             Database.logUserAction(u, "Register");
                             System.out.println("User registered successfully!");
                             loggedin = true;
@@ -175,6 +175,6 @@ public class Main {
             } else {
                 System.out.println("\nIncorrect input format");
             }
-            }
         }
+    }
 }

@@ -24,6 +24,14 @@ public class Database implements Serializable {
         }
         return null;
     }
+    public static Student getStudent(String nickname){
+        for(Student s : students){
+            if(s.getNickName().equals(nickname)){
+                return s;
+            }
+        }
+        return null;
+    }
     public static void logUserAction(User user, String action) {
         String logEntry = new Date() + " - User: " + user.getNickName() + " - Action: " + action;
         userActionsLog.add(logEntry);

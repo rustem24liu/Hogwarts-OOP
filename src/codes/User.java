@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class User implements Serializable {
-//    private static final long serialVersionUID = 1L;
+    //    private static final long serialVersionUID = 1L;
     public String firstName;
     public String secondName;
     public int age;
@@ -95,6 +95,9 @@ public class User implements Serializable {
     }
 
     public void GreatHall() throws Exception {
+        try {
+
+
             while (true) {
                 System.out.println("\n$$===== Great Hall Menu =====$$");
                 System.out.println("1) News");
@@ -137,6 +140,12 @@ public class User implements Serializable {
                         System.out.println("Invalid choice. Please enter a valid option.");
                 }
             }
+            }
+        catch (NumberFormatException n){
+            n.printStackTrace();
+        }
+
+
     }
 
 
@@ -163,14 +172,14 @@ public class User implements Serializable {
     void personalData() {
 
         System.out.println("\n\n" +
-                    "Name: " + firstName + '\n' +
-                    "Last Name: '" + secondName + '\n' +
-                    "Age:  " + age + '\n' +
-                    "ID: '" + ID + '\n' +
-                    "Owl Name='" + owlName + '\n' + "\n" +
+                "Name: " + firstName + '\n' +
+                "Last Name: '" + secondName + '\n' +
+                "Age:  " + age + '\n' +
+                "ID: '" + ID + '\n' +
+                "Owl Name='" + owlName + '\n' + "\n" +
                 password
         );
-        }
+    }
 
 
 

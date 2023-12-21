@@ -26,11 +26,10 @@ public class Manager extends User{
             System.out.println("1) News");
             System.out.println("2) Personal Data");
             System.out.println("3) Change Password");
-            System.out.println("4) Send Parcel");
-            System.out.println("5) View Parcel");
-            System.out.println("6) Manage News");
-            System.out.println("7) Manage requests");
-            System.out.println("0 Logout");
+            System.out.println("4) Messages ");
+            System.out.println("5) Manage News");
+            System.out.println("6) Manage requests");
+            System.out.println("0. Logout");
 
             System.out.print("Enter your choice: ");
             int choice = Integer.parseInt(reader.readLine());
@@ -46,16 +45,12 @@ public class Manager extends User{
                     super.changePassword();
                     break;
                 case 4:
-                    sendMessage();
-//                    super.sendParcel();
+                    super.sendMessage();
                     break;
                 case 5:
-//                    super.viewParcel();
-                    break;
-                case 6:
                     manageNews();
                     break;
-                case 7:
+                case 6:
                     manageRequest();
                     break;
                 case 0:
@@ -184,7 +179,7 @@ public class Manager extends User{
         System.out.print("Enter the title of the news you want to update: ");
         String titleToUpdate = reader.readLine();
 
-        boolean newsExists = Database.getNewsByTitle(titleToUpdate)
+        boolean newsExists = Database.getNewsByTitle(titleToUpdate);
 
         if (newsExists) {
             System.out.print("Enter the new description for the news: ");
@@ -216,4 +211,3 @@ public class Manager extends User{
     }
 
 }
-
