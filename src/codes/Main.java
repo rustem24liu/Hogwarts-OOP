@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws Exception {
+
         Student harry = new Student("Harry", "Potter", 11, "0", "Hedwig", Faculty.GRYFFNDOR, "harry", "hogwartsbest");
         Student hermione = new Student("Hermione", "Granger", 11, "1", "Crookshanks", Faculty.GRYFFNDOR,  "hermi", "hermi");
         Student ron = new Student("Ron", "Weasley", 12, "2", "Scabbers",Faculty.GRYFFNDOR,  "ronny", "ronnyrocks");
@@ -30,7 +31,47 @@ public class Main {
         admin.setPassword("admin1");
 
         Manager dumbledore = new Manager("Albus", "Dumbledore", 150, "M001", "Fawkes", "headmaster", "elderwand");
-        Manager mcGonagall = new Manager("Minerva", "McGonagall", 70, "M002", "Tabby", "deputyhead", "transfiguration");
+//        Manager mcGonagall = new Manager("Minerva", "McGonagall", 70, "M002", "Tabby", "deputyhead", "transfiguration");
+
+        Teacher teacher1 = new Teacher("Severus", "Snape", 38, "SN123", "Potter", TeacherDegree.MASTER, "snape", "password1");
+        teacher1.setRating(9.5);
+        Teacher teacher2 = new Teacher("Minerva", "McGonagall", 45, "MM789", "Gryffindor", TeacherDegree.DOCTOR, "mcgonagall", "password2");
+        teacher2.setRating(10.0);
+        Teacher teacher3 = new Teacher("Filius", "Flitwick", 63, "FF456", "Ravenclaw", TeacherDegree.BACHELOR, "flitwick", "pasord3");
+        teacher3.setRating(8.8);
+
+
+        Subject potionSubject = new Subject("POT101", "Potions", 4, teacher1, 100);
+        Subject darkArtsSubject = new Subject("DAR102", "Defense Against the Dark Arts", 5, teacher1, 40);
+        teacher1.setSubjects(potionSubject);
+        teacher1.setSubjects(darkArtsSubject);
+
+// Creating subjects for Teacher 2 (Minerva McGonagall)
+        Subject transfigurationSubject = new Subject("TRA201", "Transfiguration", 4, teacher2, 30);
+        Subject charmsSubject = new Subject("CHA202", "Charms", 5, teacher2, 20);
+        teacher2.setSubjects(transfigurationSubject);
+        teacher2.setSubjects(charmsSubject);
+
+// Creating subjects for Teacher 3 (Filius Flitwick)
+        Subject charmsSubject2 = new Subject("CHA301", "Charms II", 4, teacher3, 20);
+        Subject flyingSubject = new Subject("FLY302", "Flying", 3, teacher3, 15);
+
+        teacher3.setSubjects(charmsSubject2);
+        teacher3.setSubjects(flyingSubject);
+
+        Dean d = new Dean();
+
+        d.setNickName("Dean");
+        d.setPassword("dean1");
+        admin.addUsers(d);
+
+        // Adding subjects to Database.subjects
+        Database.subjects.add(potionSubject);
+        Database.subjects.add(darkArtsSubject);
+        Database.subjects.add(transfigurationSubject);
+        Database.subjects.add(charmsSubject);
+        Database.subjects.add(charmsSubject2);
+        Database.subjects.add(flyingSubject);
 
         admin.addUsers(harry);
         admin.addUsers(hermione);
@@ -39,15 +80,48 @@ public class Main {
         admin.addUsers(draco);
         admin.addUsers(luna);
         admin.addUsers(dumbledore);
-        admin.addUsers(mcGonagall);
+//        admin.addUsers(mcGonagall);
         admin.addUsers(admin);
+        admin.addUsers(teacher1);
+        admin.addUsers(teacher2);
+        admin.addUsers(teacher3);
 
         dumbledore.addNews(news1);
         dumbledore.addNews(news2);
-        mcGonagall.addNews(news3);
-        mcGonagall.addNews(news4);
+        dumbledore.addNews(news3);
+        dumbledore.addNews(news4);
 
         admin.deleteUsers(luna);
+
+//        harry.setSubjects(transfigurationSubject);
+//        System.out.println(teacher1.viewStudents(transfigurationSubject));
+        draco.setSubjects(charmsSubject);
+        draco.setSubjects(transfigurationSubject);
+        draco.setSubjects(potionSubject);
+
+        teacher1.putMark(potionSubject, TypeOfMark.FIRST_ATTESTATION,10, draco);
+
+        teacher1.putMark(potionSubject, TypeOfMark.SECOND_ATTESTATION,10, draco);
+
+        teacher1.putMark(potionSubject, TypeOfMark.FINAL,10, draco);
+
+        teacher2.putMark(charmsSubject, TypeOfMark.FIRST_ATTESTATION,10, draco);
+
+        teacher2.putMark(charmsSubject, TypeOfMark.SECOND_ATTESTATION,10, draco);
+
+        teacher2.putMark(charmsSubject, TypeOfMark.FINAL,10, draco);
+
+//        teacher2.putMark(charmsSubject2, TypeOfMark.FIRST_ATTESTATION,10, draco);
+//
+//        teacher2.putMark(charmsSubject2, TypeOfMark.SECOND_ATTESTATION,10, draco);
+//
+//        teacher2.putMark(charmsSubject2, TypeOfMark.FINAL, 15, draco);
+
+
+
+
+
+
 
 
         Menu();
@@ -60,7 +134,7 @@ public class Main {
     public static void Menu() throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         while (true) {
-            System.out.println("-----WELCOME TO HOGWARTS-----" + "\n1 - LogIn\n2 - Exist\nYour choice: ");
+            System.out.println("\n-----WELCOME TO HOGWARTS-----" + "\n1 - LogIn\n2 - Exist\nYour choice: ");
             String answer = reader.readLine();
             boolean loggedin = false;
             if (answer.equals("1")) {

@@ -1,17 +1,34 @@
 package codes;
 
+import javax.xml.crypto.Data;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.*;
+
+import static codes.User.reader;
+
 public class Student extends User {
     private Integer yearOfStudy;
     private String property;
     private String organization;
-    private Integer totalCredits;
+    private int totalCredits;
     private Faculty faculty;
     private boolean moodOfHat = new Random().nextBoolean();
     private HashMap<Subject, Mark> marks = new HashMap<>();
     private ArrayList<Subject> subjects = new ArrayList<>();
+    private LocalDate date = LocalDate.now();
+    private boolean isTotalCreditsCalculated = false;
+    public double GPA;
+    {
+        for (Subject c : marks.keySet()) {
+            Mark mark = marks.get(c);
+            GPA += (mark.getDigitMark() * c.getCredits()) / (c.getCredits() * marks.size());
+        }
+    }
 
+
+    //    private boolean dos = false;
     List<String> gryffindor = Arrays.asList("bravery", "daring", "nerve", "chivalry");
     List<String> hufflepuff = Arrays.asList("hard work", "dedication", "patience", "loyalty", "fair play");
     List<String> ravenclaw = Arrays.asList("intelligence", "knowledge", "curiosity", "creativity", "wit");
@@ -32,8 +49,35 @@ public class Student extends User {
         this.faculty = faculty;
     }
 
+    public double getGPA(){
+        return GPA;
+    }
+
+
+
+
     public void GreatHall() throws Exception {
-        while (true) {
+        if(!isTotalCreditsCalculated) {
+            {
+                for (Subject s : subjects) {
+                    totalCredits += s.getCredits();
+                }
+            }
+            isTotalCreditsCalculated = true;
+        }
+        boolean ok = true;
+        int cnt = 0;
+        for (Mark mark : marks.values()) {
+            if (mark != null && mark.getLiteralMark().equals("F")) {
+                cnt++;
+            }
+            if (cnt >= 3) {
+                ok = false;
+                System.out.println("\nYou have more than 3 fails! You cannot to open GREAT HALL!");
+                break;  // Exit the loop once you reach 3 F grades
+            }
+        }
+        while (ok) {
             System.out.println("\n$$===== Great Hall Menu =====$$");
             System.out.println("1) News");
             System.out.println("2) Make Request");
@@ -48,9 +92,9 @@ public class Student extends User {
             System.out.println("0) Logout");
             System.out.print("Enter your choice: ");
             int choice = Integer.parseInt(reader.readLine());
-
             switch (choice) {
                 case 1:
+//                    System.out.println(date.getMonth());
                     news();
                     Database.logUserAction(this, "View news");
                     break;
@@ -75,12 +119,16 @@ public class Student extends User {
                     SortingHat();
                     break;
                 case 7:
+                    viewSubjects();
                     break; //  I SHOULD WRITE METHODS
                 case 8:
+                    SubjectRegistration();
                     break; //  I SHOULD WRITE METHODS
                 case 9:
+                    viewTranscript();
                     break;//  I SHOULD WRITE METHODS
                 case 10:
+                    TeacherInfo();
                     break;//  I SHOULD WRITE METHODS
                 case 0:
                     LogOut();
@@ -92,6 +140,154 @@ public class Student extends User {
             }
         }
     }
+
+    public int compareTo(User o){
+        Student s = (Student) o;
+        return getFirstName().compareTo(o.getFirstName());
+    }
+    public int compareTo(Student s){
+        return Double.compare(this.getGPA(), s.getGPA());
+    }
+    public void viewSubjects(){
+        if(subjects.isEmpty()){
+            System.out.println("You don't have any subjects!");
+        }
+        else {
+            for (Subject s : subjects) {
+                System.out.println(s);
+            }
+        }
+    }
+
+    public void setSubjectMarks(Subject subject, Mark m){
+        marks.put(subject, m);
+
+    }
+    public void SubjectRegistration() throws IOException {
+
+        if (totalCredits >= 21) {
+            System.out.println("You have already reached the maximum credits. Cannot register for more subjects.");
+            return;
+        }
+
+        System.out.println("Available Subjects:");
+        for (Subject s : Database.subjects) {
+            System.out.println(s);
+        }
+
+        System.out.print("\nEnter the code of the subject to choose: ");
+        String code = reader.readLine();
+
+        // Check if the subject exists in the database
+        Subject selectedSubject = null;
+        for (Subject s : Database.subjects) {
+            if (s.getCode().equalsIgnoreCase(code)) {
+                selectedSubject = s;
+                break;
+            }
+        }
+
+        if (selectedSubject == null) {
+            System.out.println("Subject with code " + code + " not found in the database.");
+            return;
+        }
+
+        // Check if the subject is already registered by the student
+        if (subjects.contains(selectedSubject)) {
+            System.out.println("You are already registered for the selected subject.");
+            return;
+        }
+
+        // Check if the student has enough credits to register for the subject
+        if (totalCredits + selectedSubject.getCredits() > 21) {
+            System.out.println("Adding this subject will exceed the maximum credit limit.");
+            return;
+        }
+
+        // Register the subject for the student
+        selectedSubject.addStudent(this);
+        subjects.add(selectedSubject);
+        totalCredits += selectedSubject.getCredits();
+        System.out.println("Subject " + selectedSubject.getTitle() + " successfully registered!");
+//        System.out.println("Total credit: " + getCredits());
+    }
+
+    public int getCredits(){
+        return totalCredits;
+    }
+
+
+
+
+
+
+    public void TeacherInfo() throws Exception {
+        while(true) {
+            System.out.println("1) Info about teachers");
+            System.out.println("2) Rate teachers");
+            System.out.println("0) Quit");
+
+//            BufferedReader reader;
+            int answer = Integer.parseInt(reader.readLine());
+            switch (answer) {
+                case 1:
+                    System.out.println("-----Info about teachers-----");
+                    for(Subject s: subjects){
+                        System.out.println(s.getTeacher() + "| Subject: " + s.getTitle());
+                    }
+                    break;
+                case 2:
+                    for(Subject s: subjects){
+                        System.out.println(s.getTeacher() + " | ID: " + s.getTeacherID() +" | "+ "Subject: " + s.getTitle());
+                    }
+                    System.out.print("Teacher's ID that you want to rate: ");
+                    String ID =  reader.readLine();
+                    System.out.println("Rate: 0 to 10: ");
+                    double rating = Double.parseDouble(reader.readLine());
+                    boolean ok = false;
+                    for(Subject s : subjects){
+                        if(s.getTeacherID().equals(ID)){
+                            ok = true;
+                            Teacher teacher = s.getTeacher();
+                            teacher.setRating(rating);
+                        }
+                    }
+                    if(ok){
+                        System.out.println("Successful operation");
+                    }
+                    if(!ok){
+                        System.out.println("Something went wrong");
+                    }
+                    break;
+                case 0:
+                    this.GreatHall();
+                    break;
+            }
+        }
+        }
+
+
+    public void viewTranscript() {
+        double totalGPA = 0;
+
+        for (Subject c : marks.keySet()) {
+            Mark mark = marks.get(c);
+
+            if (mark != null) {
+                System.out.print(c.getTitle() + " | " + mark.getFirstAttestation() + " | "
+                        + mark.getSecondAttestation() + " | " + mark.getFinal() + " | "
+                        + mark.getTotal() + " | " + mark.getLiteralMark() +
+                        " | " + mark.getDigitMark() + " | " + "\n");
+
+                totalGPA += (mark.getDigitMark() * c.getCredits()) / (c.getCredits() * marks.size());
+            } else {
+                System.out.println(c.getTitle() + " | N/A | N/A | N/A | N/A | N/A | N/A | N/A");
+            }
+        }
+
+        System.out.println("Total GPA: " + totalGPA);
+    }
+
 
     public void SortingHat() throws IOException {
         if(faculty != null){
@@ -110,7 +306,7 @@ public class Student extends User {
                     if (w.equals(propertyStudent)) {
                         exist = true;
                         this.faculty = Faculty.GRYFFNDOR;
-                        System.out.println("You are inGryffndor!");
+                        System.out.println("You are in GRYFFINDOR!");
                     }
                 }
                 for (String w : hufflepuff) {
@@ -160,6 +356,13 @@ public class Student extends User {
         }
         return false;
     }
+    public void setSubjects(Subject subject){
+        subjects.add(subject);
+        subject.addStudent(this);
+    }
+    public String getFullName(){
+        return (firstName + " " + secondName);
+    }
 
     public Integer getYearOfStudy() {
         return this.yearOfStudy;
@@ -194,7 +397,7 @@ public class Student extends User {
             System.out.println("Academic Degree: " + teacher.getTeacherDegree());
             System.out.println("Faculty: " + teacher.getFaculty());
             System.out.println("Rating: " + teacher.getRaring());
-            System.out.println("Lesson Type: " + teacher.getLessonType());
+//            System.out.println("Lesson Type: " + teacher.getLessonType());
             System.out.println("------------------------");
         }
     }

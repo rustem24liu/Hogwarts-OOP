@@ -29,6 +29,7 @@ public class Manager extends User{
             System.out.println("4) Messages ");
             System.out.println("5) Manage News");
             System.out.println("6) Manage requests");
+            System.out.println("7) View info about Teachers/Students");
             System.out.println("0. Logout");
 
             System.out.print("Enter your choice: ");
@@ -53,6 +54,9 @@ public class Manager extends User{
                 case 6:
                     manageRequest();
                     break;
+                case 7:
+                    viewInfo();
+                    break;
                 case 0:
                     LogOut();
                     System.out.println("Logged out. Returning to the main menu.");
@@ -60,6 +64,48 @@ public class Manager extends User{
                 default:
                     System.out.println("Invalid choice. Please enter a valid option.");
             }
+        }
+    }
+
+    public void viewInfo() throws Exception {
+        boolean ok = true;
+        while(ok){
+            System.out.println("1) Info about Teachers");
+            System.out.println("2) Info about Students");
+            System.out.println("0) Quit");
+            System.out.print("Your choice: ");
+            int answer = Integer.parseInt(reader.readLine());
+            switch(answer){
+                case 1:
+                    Database.getTeacher();
+                    break;
+                case 2:
+                    boolean right = true;
+                    while(right) {
+                        System.out.println("1) By name");
+                        System.out.println("2) By GPA");
+                        System.out.println("0) QUIT");
+                        int ans = Integer.parseInt(reader.readLine());
+                        switch (ans) {
+                            case 1:
+                                System.out.println(Database.getStudentsOrderByName());
+                                break;
+                            case 2:
+                                System.out.println(Database.getStudentsOrderByGPA());
+                                break;
+                            case 0:
+                                right = false;
+                                break;
+                        }
+                    }
+//                    Database.getStudents();
+                    break;
+                case 0:
+//                    this.GreatHall();
+                    ok = false;
+                    break;
+            }
+
         }
     }
     private void manageRequest() throws IOException {

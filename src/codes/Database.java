@@ -12,8 +12,60 @@ public class Database implements Serializable {
 //    protected static ArrayList<Message> messages = new ArrayList<>();
     protected static ArrayList<Student> students = new ArrayList<>();
     protected static ArrayList<Manager> managers = new ArrayList<>();
-    protected static ArrayList<User> subjects = new ArrayList<>();
+    protected static ArrayList<Subject> subjects = new ArrayList<>();
+    protected static ArrayList<Complaint> complaints = new ArrayList<>();
+    protected static ArrayList<Teacher> teachers = new ArrayList<>();
 
+
+    public static ArrayList<Complaint> getComplaints() {
+        return complaints;
+    }
+
+    public static void addComplaint(Complaint complaint) {
+        complaints.add(complaint);
+    }
+
+    public static void getTeacher(){
+        System.out.println("----------Teachers----------");
+        for(User u: users){
+            if(u instanceof Teacher){
+                Teacher teacher = (Teacher) u;
+                System.out.println(teacher);
+            }
+        }
+    }
+    public static ArrayList<Student> getStudentsOrderByName() {
+        ArrayList<Student> s = new ArrayList<>();
+        for (User user: users) {
+            if (user instanceof Student) {
+                Student student = (Student) user;
+                s.add(student);
+            }
+        }
+        s.sort(new SortStudentByName());
+        return s;
+    }
+
+    public static ArrayList<Student> getStudentsOrderByGPA() {
+        ArrayList<Student> s = new ArrayList<>();
+        for (User user: users) {
+            if (user instanceof Student) {
+                Student student = (Student) user;
+                s.add(student);
+            }
+        }
+        s.sort(new SortStudentByGPA());
+        return s;
+    }
+    public static void getStudents(){
+        System.out.println("----------Students----------");
+        for(User u: users ){
+            if(u instanceof Student){
+                Student student = (Student) u;
+                System.out.println(student);
+            }
+        }
+    }
 
     
     public static User getUser(String nickname){
@@ -24,9 +76,9 @@ public class Database implements Serializable {
         }
         return null;
     }
-    public static Student getStudent(String nickname){
+    public static Student getStudent(String ID){
         for(Student s : students){
-            if(s.getNickName().equals(nickname)){
+            if(s.getID().equals(ID)){
                 return s;
             }
         }

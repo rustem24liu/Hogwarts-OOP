@@ -18,15 +18,20 @@ public class Subject implements Serializable {
     private ArrayList<Teacher> teachers = new ArrayList<>();
     private HashMap<Student, Mark> marks = new HashMap<>();
 
-    public Subject(String code, String title, int credits, Teacher teacher) {
+    public Subject(String code, String title, int credits, Teacher teacher, int limitOfStudents) {
         this.code = code;
         this.title = title;
         this.credits = credits;
         this.teacher = teacher;
+        this.limitOfStudents = limitOfStudents;
     }
 
     public String getCode() {
         return code;
+    }
+
+    public void setStudent(Student student){
+        students.add(student);
     }
 
     public void setCode(String code) {
@@ -52,6 +57,12 @@ public class Subject implements Serializable {
     public Teacher getTeacher() {
         return teacher;
     }
+    public String getTeacherID(){
+        return teacher.ID;
+    }
+
+
+
 
     public void setCredits(int credits) {
         this.credits = credits;
@@ -76,6 +87,9 @@ public class Subject implements Serializable {
     public ArrayList<Student> getStudents() {
         return students;
     }
+//    public void getTitle(){
+//        return title;
+//    }
 
     public void addStudent(Student student) {
         if (students.size() < limitOfStudents) {
@@ -88,6 +102,16 @@ public class Subject implements Serializable {
         }
     }
 
+    public void putMark(Student student, double points, TypeOfMark typeOfMark){
+        try {
+            Mark mark = marks.get(student);
+            mark.putMark(typeOfMark, points);
+            System.out.println("Successful!");
+        }
+        catch (Exception e){
+            System.out.println("Unsuccessful operation");
+        }
+    }
     public ArrayList<Teacher> getTeachers() {
         return teachers;
     }
@@ -114,7 +138,7 @@ public class Subject implements Serializable {
 
     @Override
     public String toString() {
-        return "Course: " + "code = '" + code + '\'' +
+        return "Subject: " + "code = '" + code + '\'' +
                 ", title = '" + title + '\'' +
                 ", credits = " + credits +
                 ", teacher = " + teacher;

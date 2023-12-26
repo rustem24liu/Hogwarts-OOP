@@ -141,12 +141,17 @@ public class User implements Serializable {
                 }
             }
             }
-        catch (NumberFormatException n){
+        catch (Exception n){
             n.printStackTrace();
         }
 
 
     }
+
+    public int compareTo(User user){
+        return user.getNickName().compareTo(nickName);
+    }
+
 
 
 
@@ -162,6 +167,7 @@ public class User implements Serializable {
         String request = reader.readLine();
         System.out.print("Description: ");
         String desc = reader.readLine();
+        System.out.println("Urgency level:\n1. ");
 
         String logEntry = new Date() + " - User: " + this.getNickName() + " - Title: " + request + " - Description: " + desc;
         Database.requests.add(logEntry);
