@@ -1,20 +1,21 @@
 package codes;
 
 import java.io.IOException;
-import java.util.Objects;
+import java.nio.channels.ScatteringByteChannel;
 
-public class Employee extends User{
-    private double salary = 2500.0;
-    public Employee() {
-        super();
+public class CareTaker extends Employee{
+    public CareTaker() {
     }
-    public Employee(String firstName, String secondName, int age, String ID, String owlName    /*Faculties faculty*/) {
+
+    public CareTaker(String firstName, String secondName, int age, String ID, String owlName) {
         super(firstName, secondName, age, ID, owlName);
     }
-    public Employee(String firstName, String secondName, int age, String ID, String owlName, String nickname, String password /*Faculties faculty*/) {
+
+    public CareTaker(String firstName, String secondName, int age, String ID, String owlName, String nickname, String password) {
         super(firstName, secondName, age, ID, owlName, nickname, password);
     }
 
+    @Override
     public void GreatHall() throws Exception {
         try {
             while (true) {
@@ -23,6 +24,7 @@ public class Employee extends User{
                 System.out.println("2) Salary");
                 System.out.println("3) Change Password");
                 System.out.println("4) Parcels(Messages)");
+                System.out.println("5) Black list");
                 System.out.println("0) Logout");
                 System.out.print("Enter your choice: ");
                 int choice = Integer.parseInt(reader.readLine());
@@ -35,6 +37,7 @@ public class Employee extends User{
                     case 2:
                         System.out.print("Amount of salary is: ");
                         getSalary();
+                        System.out.println("");
                         Database.logUserAction(this, "Salary option");
                         break;
                     case 3:
@@ -44,6 +47,9 @@ public class Employee extends User{
                     case 4:
                         Messages();
                         Database.logUserAction(this, "Message");
+                        break;
+                    case 5:
+                        blackList();
                         break;
                     case 0:
                         LogOut();
@@ -59,33 +65,55 @@ public class Employee extends User{
             n.printStackTrace();
         }
     }
+    public void blackList() throws IOException {
+        try{
 
-    public void getSalary() {
-        System.out.println(salary + "$");
+
+        boolean ok = true;
+        while (ok) {
+            System.out.println("1) View Black List");
+            System.out.println("2) Add to Black List");
+            System.out.println("0) Quit");
+            int ans = Integer.parseInt(reader.readLine());
+            switch (ans) {
+                case 1:
+                    Database.getBlackList();
+                    break;
+                case 2:
+                    Database.getStudents();
+                    System.out.print("Student ID: ");
+                    String id = reader.readLine();
+
+                    Student student = Database.getStudent(id);
+//                    System.out.println(student);
+                    System.out.print("Cause of adding to black list: ");
+                    String cause = reader.readLine();
+
+                    BlackList blackList = new BlackList(student, cause);
+                    Database.blackList.add(blackList);
+                    break;
+                case 0:
+                    ok = false;
+                    break;
+            }
+        }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+
+        }
+
     }
 
-    public void setSalary(double salary) {
-        this.salary = salary;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Employee employee = (Employee) o;
-        return Double.compare(salary, employee.salary) == 0;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(salary);
-    }
 
     @Override
     public String toString() {
-        return "Employee{" +
-                super.toString() +
-                " salary=" + salary +
+        return "CareTaker{" +
+                "firstName='" + firstName + '\'' +
+                ", secondName='" + secondName + '\'' +
+                ", age=" + age +
+                ", ID='" + ID + '\'' +
+                ", loggedin=" + loggedin +
                 '}';
     }
 }

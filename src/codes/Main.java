@@ -63,6 +63,9 @@ public class Main {
 
         d.setNickName("Dean");
         d.setPassword("dean1");
+
+        CareTaker Flitwick = new CareTaker("Name", "name", 99, "wefew", "wef", "wef", "wef");
+        admin.addUsers(Flitwick);
         admin.addUsers(d);
 
         // Adding subjects to Database.subjects

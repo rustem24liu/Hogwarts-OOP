@@ -1,8 +1,8 @@
 package codes;
 
+import java.util.Comparator;
+
 public interface Researcher {
-    void addResearchPaper();
-    void manageResearchPaper();
-    void printPapers();
-    void removeResearchPaper();
+    void printPapers(Comparator<ResearchPaper> r );
+    int hIndex();
 }

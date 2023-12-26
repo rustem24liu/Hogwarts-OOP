@@ -15,6 +15,24 @@ public class Database implements Serializable {
     protected static ArrayList<Subject> subjects = new ArrayList<>();
     protected static ArrayList<Complaint> complaints = new ArrayList<>();
     protected static ArrayList<Teacher> teachers = new ArrayList<>();
+    protected static ArrayList<BlackList> blackList = new ArrayList<>();
+    public static void getBlackList(){
+        try {
+
+
+            if (blackList.isEmpty()) {
+                System.out.println("No students in Black List");
+            } else {
+                for (BlackList b : blackList) {
+                    System.out.println(b);
+                }
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 
 
     public static ArrayList<Complaint> getComplaints() {
@@ -77,9 +95,12 @@ public class Database implements Serializable {
         return null;
     }
     public static Student getStudent(String ID){
-        for(Student s : students){
-            if(s.getID().equals(ID)){
-                return s;
+        for(User user: users){
+            if(user instanceof Student){
+                Student student = (Student) user;
+                if(student.getID().equals(ID)){
+                    return student;
+                }
             }
         }
         return null;

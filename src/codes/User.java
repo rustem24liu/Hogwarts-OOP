@@ -280,6 +280,7 @@ public class User implements Serializable {
             recipient.receiveMessage(message1);
 
             System.out.println("Message sent!");
+
         }
         else {
             System.out.println("User not found!");
@@ -294,18 +295,14 @@ public class User implements Serializable {
         Main.Menu();
     }
 
-
     @Override
     public String toString() {
-        return "\n\n" +
-                "Name: " + firstName + '\n' +
-                "Last Name: " + secondName + '\n' +
-                "Age: " + age + '\n' +
-                "ID: " + ID + '\n' +
-                "Nick Name: " + this.nickName + '\n' +
-                "Password: " + this.password + '\n' +
-                "Status: " + status + '\n' +
-                "Owl Name: " + owlName + '\n';
+        return "\n" +
+                "Name: " + firstName +
+                " Last Name: " + secondName  +
+                " Age: " + age +
+                " ID: " + ID +
+                " Status: " + status +
+                " Owl Name: " + owlName;
     }
-
 }
