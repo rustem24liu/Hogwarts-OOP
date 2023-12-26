@@ -6,6 +6,6 @@
 # Team members
 | Names | GITHUB |
 | ----- | ------ |
-|Temrigali Rustem(leader)|[github](https://github.com/rustem24liu)
+|Temirgali Rustem(leader)|[github](https://github.com/rustem24liu)
 |Marat Diana|[github](https://github.com/Medianaaaaa)
-|Tiletay Azamat|[github](https://github.com/Tl-Azamat)
+|Tletay Azamat|[github](https://github.com/Tl-Azamat)
