@@ -12,13 +12,13 @@ public class Student extends User {
     private Integer yearOfStudy;
     private String property;
     private String organization;
-    private int totalCredits;
+    public int totalCredits;
     private Faculty faculty;
     private boolean moodOfHat = new Random().nextBoolean();
-    private HashMap<Subject, Mark> marks = new HashMap<>();
-    private ArrayList<Subject> subjects = new ArrayList<>();
+    public HashMap<Subject, Mark> marks = new HashMap<>();
+    public ArrayList<Subject> subjects = new ArrayList<>();
     private LocalDate date = LocalDate.now();
-    private boolean isTotalCreditsCalculated = false;
+    public boolean isTotalCreditsCalculated = false;
     public double GPA;
     {
         for (Subject c : marks.keySet()) {

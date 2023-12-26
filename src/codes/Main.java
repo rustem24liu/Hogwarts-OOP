@@ -208,16 +208,78 @@ public class Main {
                             System.out.print("Set password: ");
                             String regPassword = reader.readLine();
                             if (ans == 1) {
+                                boolean isResearcher = false;
+                                System.out.println("Are you researcher?: ");
+                                System.out.println("1) Yes");
+                                System.out.println("2) No");
+                                int res = Integer.parseInt(reader.readLine());
+                                switch (res){
+                                    case 1:
+                                        isResearcher= true;
+                                        Employee newemployee = new Employee(name, lastName, age, ID, owl, isResearcher, nickname, regPassword);
+                                        Database.users.add(newemployee);
+                                        newemployee.GreatHall();
+                                        loggedin = true;
+                                    case 2:
+                                        Employee newemployee2 = new Employee(name, lastName, age, ID, owl, nickname, regPassword);
+                                        Database.users.add(newemployee2);
+                                        newemployee2.GreatHall();
+                                        loggedin = true;
+                                        break;
+
+                                }
 
                             }
                             else if (ans == 2) {
-                                Student newStudent = new Student(name, lastName, age, ID, owl, nickname, regPassword);
-                                Database.users.add(newStudent);
-                                newStudent.GreatHall();
-                                loggedin = true;
+                                System.out.println("1) Bachelor student");
+                                System.out.println("2) Graduated student");
+                                int choice = Integer.parseInt(reader.readLine());
+                                switch (choice){
+                                    case 1:
+                                        Bachelor bachelor = new Bachelor(name, lastName, age, ID, owl, nickname, regPassword);
+                                        Database.users.add(bachelor);
+                                        bachelor.GreatHall();
+                                        loggedin = true;
+                                    case 2:
+                                        GraduateStudent graduateStudent = new GraduateStudent(name, lastName, age, ID, owl, nickname, regPassword);
+                                        Database.users.add(graduateStudent);
+                                        graduateStudent.GreatHall();
+                                        loggedin = true;
+
+                                }
+//                                Student newStudent = new Student(name, lastName, age, ID, owl, nickname, regPassword);
+//                                Database.users.add(newStudent);
+//                                newStudent.GreatHall();
+//                                loggedin = true;
                             }
                             else if (ans == 3) {
+                                TeacherDegree degree = TeacherDegree.JUNIORLECTOR;
+                                System.out.println("Your degree: ");
+                                System.out.println("1) JUNIORLECTOR\n2)MIDDLELECTOR\n3)SENIORLECTOR\n4)PROFESSOR\n5)ASSISTEN\n6)MASTER\n7)DOCTOR\n8)BACHELOR");
+                                System.out.print("Your choice: ");
+                                int choice = Integer.parseInt(reader.readLine());
 
+                                switch (choice){
+                                    case 1:
+                                        degree = TeacherDegree.JUNIORLECTOR;
+                                    case 2:
+                                        degree = TeacherDegree.MIDDLELECTOR;
+                                    case 3:
+                                        degree = TeacherDegree.SENIORLECTOR;
+                                    case 4:
+                                        degree = TeacherDegree.PROFESSOR;
+                                    case 5:
+                                        degree = TeacherDegree.ASSISTENT;
+                                    case 6:
+                                        degree = TeacherDegree.MASTER;
+                                    case 7:
+                                        degree = TeacherDegree.DOCTOR;
+                                    case 8:
+                                        degree = TeacherDegree.BACHELOR;
+
+                                }
+                                Teacher newTeacher = new Teacher(name, lastName, age, ID, owl, degree, nickname, regPassword);
+                                Database.users.add(newTeacher);
                             }
                             else if (ans == 4) {
                                 Manager newManager = new Manager(name, lastName, age, ID, owl, nickname, regPassword);

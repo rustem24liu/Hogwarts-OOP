@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Objects;
 
-public class Teacher extends User {
+public class Teacher extends Employee    {
     private TeacherDegree teacherDegree;
 
     private Faculty faculty;
@@ -24,7 +24,6 @@ public class Teacher extends User {
     public Teacher (String firstName, String secondName, int age, String ID, String owlName, TeacherDegree teacherDegree, String nickname, String password) {
         super(firstName, secondName, age, ID, owlName, nickname, password);
         this.teacherDegree = teacherDegree;
-
     }
 
     public void GreatHall() throws Exception {
